@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
-const process = require("process");
 const {
     stdin: input,
     stdout: output,
@@ -11,7 +10,7 @@ const rl = readline.createInterface({ input, output });
 
 const writeableStream = fs.createWriteStream(path.posix.basename("02-write-file\\greeting.txt"));
 writeableStream.write("Введите текст:");
-console.log('Введите текст:')
+console.log('Введите текст и нажмите Enter:')
 rl.on('line', (input) => {
     if (input != '') {
         console.log(`Получено: ${input}`);
@@ -26,7 +25,7 @@ rl.on('line', (input) => {
 rl.on('close', () => {
     fs.unlink(path.posix.basename("02-write-file\\greeting.txt"), err => {
         if (err) throw err;
-        console.log('Файл успешно удалён');
+        console.log('Всего хорошего! Файл успешно удалён');
     })
 });
 

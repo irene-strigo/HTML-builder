@@ -1,33 +1,22 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
-const {
-    stdin: input,
-    stdout: output,
-} = require("process");
+const { stdin, stdout } = require("process");
 
-const rl = readline.createInterface({ input, output });
-
-const writeableStream = fs.createWriteStream(path.posix.basename("02-write-file\\greeting.txt"));
-writeableStream.write("Ваш текст:");
+const rl = readline.createInterface({ input: stdin, output: stdout });
+const writeableStream = fs.createWriteStream(path.join(__dirname, "greeting.txt"), { flags: "a" });
 console.log("Введите текст и нажмите Enter:")
 rl.on("line", (input) => {
     if (input != "") {
-        console.log(`Получено: ${input}`);
-        console.log("Введите текст и нажмите Enter:");
-        writeableStream.write(input);
-    }
-    if (input.toLowerCase() === "exit") {
-        rl.close();
+        if (input.toLowerCase() === "exit") {
+            rl.close();
+        } else {
+            console.log(`Получено: ${input}`);
+            console.log("Введите текст и нажмите Enter:");
+            writeableStream.write(`${input}\n`);
+        }
     }
 });
-
 rl.on("close", () => {
-    fs.unlink(path.posix.basename("02-write-file\\greeting.txt"), err => {
-        if (err) throw err;
-        console.log("Всего хорошего! Файл успешно удалён");
-    })
+    console.log("Всего хорошего!");
 });
-
-/*в файле greeting текст появляется только если он не открыт в данный момент, если в него перейти, 
-например, из файла index.js, не знаю правильно ли это?*/

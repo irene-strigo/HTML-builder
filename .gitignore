@@ -104,3 +104,4 @@ dist
 .tern-port
 
 02-write-file/greeting.txt
+04-copy-directory/files-copy

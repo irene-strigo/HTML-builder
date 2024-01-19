@@ -1,11 +1,30 @@
 const path = require("path");
 const fs = require("fs");
-
-fs.mkdir(path.posix.basename("04-copy-directory\\files-copy"), { recursive: true }, (error) => {
-    if (error) throw error;
-    console.log("Folder created");
-});
-fs.readdir(path.posix.basename("04-copy-directory\\files"), (error, files) => {
-    if (error) return console.log(error);
-    files.forEach((file) => console.log(file));
-});
+function copyDir() {
+    fs.readdir(path.join(__dirname, "files"), (err, files) => {
+        if (err) throw err;
+        let originals = files;
+        fs.readdir(path.join(__dirname, "files-copy"), (err, files) => {
+            if (err) throw err;
+            let copies = files;
+            for (let i = 0; i < copies.length; i++) {
+                if (copies[i] != originals[i]) {
+                    fs.unlink(path.join(__dirname, "files-copy", copies[i]), function (err) {
+                        if (err) throw err;
+                    });
+                }
+            }
+        })
+        fs.mkdir(path.join(__dirname, "files-copy"), { recursive: true }, (err) => {
+            if (err) throw err;
+            for (let file of files) {
+                fs.copyFile(path.join(__dirname, "files", file), path.join(__dirname, "files-copy", file), (err) => {
+                    if (err) throw err;
+                });
+            }
+        });
+        console.log("Folder created");
+        console.log("files in folder")
+    })
+}
+copyDir()

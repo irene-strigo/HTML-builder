@@ -1,21 +1,21 @@
 const path = require('path');
 const fs = require('fs');
 /*const copyDir = require('../04-copy-directory');*/
-const mergeFiles = require('../05-merge-styles/index');
+const mergeFiles = require('../05-merge-styles');
 /*const { mergeFiles } = require('../05-merge-styles');*/
 
 const templateHtmlContent = fs.createReadStream(
-  path.join(__dirname, 'template.html'),
+    path.join(__dirname, 'template.html'),
 );
 templateHtmlContent.on('data', function (chunk) {
-  let stringContent = chunk.toString();
-  console.log(stringContent);
+    let stringContent = chunk.toString();
+    console.log(stringContent);
 });
 
 fs.mkdir(path.join(__dirname, 'project-dist'), { recursive: true }, (err) => {
-  if (err) throw err;
+    if (err) throw err;
 });
-/*mergeFiles('styles', 'project-dist', 'style.css')*/
+mergeFiles('styles', 'project-dist', 'style.css')
 /*function mergeFiles(src, dst, name) {
     fs.readdir(
         path.join(__dirname, src),

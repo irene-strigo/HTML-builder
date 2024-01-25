@@ -12,11 +12,9 @@ fs.readdir(
           path.join(__dirname, 'secret-folder', file.name),
           function (err, stats) {
             const ext = path.extname(file.name);
+            const base = path.basename(file.name, ext);
             console.log(
-              `${file.name.slice(0, -ext.length)} - ${path
-                .extname(file.name)
-                .slice(1)} - ${stats['size']}`,
-            );
+              `${base} - ${ext.slice(1)} - ${stats['size']}b`)
           },
         );
       }
